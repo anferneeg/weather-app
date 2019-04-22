@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Weather Js</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body class="body">
+  <div class="main-container">
+    <div class="header">
+      <div class="timezone">Toronto</div>
+      <div class="currently-time">Tuesday 1 April 2019</div>
+    </div>
+    <div class="w-currently-container">
+      <div class="w-currently-wrapper">
+        <div class="w-currently-wrapper-top">
+          <div class="w-currently-wrapper-left">
+            <div class="currently-temperature">26</div>
+            <div class="degree"><span>°</span> C</div>
+          </div>
+          <div class="currently-icon">
+            <canvas class="w-icon" width="45" height="45"></canvas>
+          </div>
+        </div>
+        <div class="w-currently-wrapper-bottom">
+          <div class="currently-summary">Overcast</div>
+          <div class="temperaturehl-container">
+            <div class="temperaturehl-wrapper">
+              <div class="temperaturehl low">18 </div>
+              <span class="low">°</span>
+            </div>
+            <div class="temperaturehl-wrapper">
+              <div class="temperaturehl high">21 </div>
+              <span>°</span>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="hourly-container"></div>
+      <div class="navbar">
+        <div class="nav-label">Today</div>
+        <div class="nav-label">Tomorrow</div>
+        <div class="nav-label">10 Days</div>
+      </div>
+    </div>
+  </div>
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="js/skycons.js"></script>
+  <script src="js/weather.js"></script>
+  
+
+
+</body>
+
+</html>
