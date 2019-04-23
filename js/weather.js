@@ -18,6 +18,10 @@ window.addEventListener('load', function () {
 	let currentTempHigh = document.querySelector('.temperaturehl.high');
 	let currentTempLow = document.querySelector('.temperaturehl.low');
 
+	let currentHourTime = document.querySelector('.hourly-time');
+	let currentHourIcon = document.querySelector('.hourly-icon');
+	let currentHourDegree = document.querySelector('.hourly-degree');
+
 
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function (showPosition) {
@@ -50,29 +54,32 @@ window.addEventListener('load', function () {
 				// const { hourly } = data.hourly;
 				// console.log(`Hourly: object ${hourly}`);
 
+				//DECONSTRUCT DATA FROM HOURLY OBJECT
 				let currentHourly = data.hourly.data
+				let { time: hourlyTime } = data.hourly.data;
+				// hourlyTime = new Date();
+				// hourlyTime.getHours()
+
+				console.log(hourlyTime);
+
 				//console.log(currentHourly);
-
-				// artApp.displayPieces = function (data) {
-				// 	data.forEach(function (artObj) {
-				// 		console.log(artObj);
-				// 	});
-				// };
-
-				// currentHourly = (function (currentHour) {
-				// 	currentHourly.map(element => {
-				// 		console.log(element)
-				// 		return element
-				// 	});
-				// })();
 
 				currentHourly = function () {
 					let currentHourObj = currentHourly.map(function (item) {
-						//console.log(item);	
+						//console.log(item);
+
+						let hourFormat = item.time;
+						hourFormat = new Date(hourFormat * 1000);
+						hourFormat = hourFormat.toLocaleString({ hourCycle: 'h12' }).split(",");
+						hourFormat = hourFormat[1].replace(":00:00", " ").toLowerCase();
+						console.log(hourFormat);
+
 						let currentHourHtml = `
-						<div>${item.time}</div>
-						<div>${item.icon}</div>
-						<div>${item.temperature}</div>`;
+						<div class="hourly-wrapper">
+							<div class="hourly-time">${hourFormat}</div>
+							<div class="hourly-icon">${item.icon}</div>
+							<div class="hourly-degree">${item.temperature.toFixed(0)}</div>
+					    </div>`;
 						return currentHourHtml;
 					});
 					// currentHourObj.filter(function (item) {
@@ -80,41 +87,23 @@ window.addEventListener('load', function () {
 					// 	//console.log(currentHourFilter);
 					// 	return currentHourFiltered
 					// })
-					console.log(currentHourObj);
 					$('.hourly-container').append(currentHourObj);
 				}();
-
-				// currentHourly = function (data) {
-				// 	const hourHtml = data.filter((hourObj) => hourObj.currently).map((hourObj) => {
-				// 		let hourPieceHtml = `
-				// 		<div class="piece">
-				// 		<h2>${hourObj.title}</h2>
-				// 		<p class="artist">${hourObj.principalOrFirstMaker}</p>
-				// 		<img src="${hourObj.webImage.url}" alt="">
-				// 		</div>`;
-				// 		return hourPieceHtml;
-				// 		console.log(hourPieceHtml);
-				// 	}).join('');
-
-
-				// 	//$('body').append(hourHtml);
-				// };
-
 
 
 				let location = timezone.split('/');
 				location.shift();
-				console.log(location);
-				console.log(time);
+				// console.log(location);
+				// console.log(time);
 
-				console.log(temperature);
-				console.log(`icon: ${icon}`);
-				console.log(summary);
+				// console.log(temperature);
+				// console.log(`icon: ${icon}`);
+				// console.log(summary);
 
 				//console.log(`Temp high: ${temperatureMax}`);
 				//console.log(`Temp low: ${temperatureMin}`);
 
-				//SET DOM ELEMENTS FORM THE API
+				//SET DOM ELEMENTS FORM THE API w-currently-container
 				currentLocation.textContent = location;
 				currentDate.textContent = time;
 				currentTemp.textContent = temperature.toFixed(0);
@@ -122,6 +111,7 @@ window.addEventListener('load', function () {
 				currentSummary.textContent = summary;
 				currentTempHigh.textContent = temperatureMax.toFixed(0);
 				currentTempLow.textContent = temperatureMin.toFixed(0);
+
 
 				//SET ICONS
 				setIcons(icon, document.querySelector('.w-icon'));
@@ -150,6 +140,11 @@ window.addEventListener('load', function () {
 		skycons.play();
 		return skycons.set(iconID, Skycons[currentIcon]);
 	}
+
+	//Date convert
+	currentDate = new Date();
+	$('.currently-time').append(currentDate.toDateString());
+
 
 })
 

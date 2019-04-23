@@ -191,8 +191,49 @@
   }
   
   .hourly-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
     width: 100%;
-    height: 100px;
+    height: auto;
+    overflow-y: hidden;
+  }
+
+  .hourly-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-right: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+
+  .hourly-time {
+    color: #0084d5;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .hourly-icon {
+    width: 50px;
+    height: 50px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .hourly-degree {
+    font-size: 26px;
+    text-align: center;
   }
 
 
