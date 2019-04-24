@@ -23,6 +23,7 @@ window.addEventListener('load', function () {
 	let currentHourDegree = document.querySelector('.hourly-degree');
 
 
+
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function (showPosition) {
 			latitude = showPosition.coords.latitude
@@ -37,12 +38,16 @@ window.addEventListener('load', function () {
 
 			//GRAB DATA FROM DARKSKY API
 
+
 			$.ajax({
 				url: api,
 				method: 'GET',
 				dataType: 'jsonp',
 			}).then(function (data) {
 				console.log(data);
+
+				//Hide Loading screen
+				$(".loading-container").fadeOut();
 
 				//DECONSTRUCT DATA FROM CURRENTLY OBJECT
 				const { time, temperature, summary, icon } = data.currently;
@@ -51,36 +56,29 @@ window.addEventListener('load', function () {
 				const { temperatureMin } = data.daily.data[0];
 
 				//DECONSTRUCT DATA FROM HOURLY OBJECT
-				// const { hourly } = data.hourly;
-				// console.log(`Hourly: object ${hourly}`);
-
-				//DECONSTRUCT DATA FROM HOURLY OBJECT
-				let currentHourly = data.hourly.data
-				let { time: hourlyTime } = data.hourly.data;
-				// hourlyTime = new Date();
-				// hourlyTime.getHours()
-
-				console.log(hourlyTime);
-
-				//console.log(currentHourly);
+				let currentHourly = data.hourly.data;
+				console.log(currentHourly.splice(-12, 12));
+				currentHourly.splice(-12, 12);
 
 				currentHourly = function () {
 					let currentHourObj = currentHourly.map(function (item) {
 						//console.log(item);
 
+						//Format timestamp
 						let hourFormat = item.time;
 						hourFormat = new Date(hourFormat * 1000);
 						hourFormat = hourFormat.toLocaleString({ hourCycle: 'h12' }).split(",");
-						hourFormat = hourFormat[1].replace(":00:00", " ").toLowerCase();
-						console.log(hourFormat);
+						hourFormat = hourFormat[1].replace(":00:00", " ").toUpperCase();
+						//console.log(hourFormat);
 
 						let currentHourHtml = `
 						<div class="hourly-wrapper">
 							<div class="hourly-time">${hourFormat}</div>
-							<div class="hourly-icon">${item.icon}</div>
-							<div class="hourly-degree">${item.temperature.toFixed(0)}</div>
+							<div class=""><canvas class="hourly-icon" width="45" height="45" data-icon="${item.icon}"></canvas></div>
+							<div class="hourly-degree">${item.temperature.toFixed(0)}<span>°</span></div>
 					    </div>`;
 						return currentHourHtml;
+
 					});
 					// currentHourObj.filter(function (item) {
 					// 	let currentHourFiltered = item.temperature
@@ -88,6 +86,7 @@ window.addEventListener('load', function () {
 					// 	return currentHourFiltered
 					// })
 					$('.hourly-container').append(currentHourObj);
+
 				}();
 
 
@@ -113,8 +112,13 @@ window.addEventListener('load', function () {
 				currentTempLow.textContent = temperatureMin.toFixed(0);
 
 
-				//SET ICONS
+				//SET CURRENT MAIN ICONS
 				setIcons(icon, document.querySelector('.w-icon'));
+
+				//SET HOURLY ICONS
+				//setHourIcons(icon, document.querySelector('.hourly-icon'));
+				setHourIcons(document.getElementsByClassName('hourly-icon'));
+
 
 
 			}).catch(function (error) {
@@ -129,7 +133,7 @@ window.addEventListener('load', function () {
 			color: "white",
 			monochrome: false,
 		});
-		console.log(skycons);
+		// console.log(skycons);
 		// 	var skycons = new Skycons({
 		// 		"monochrome": false,
 		// 		"colors" : {
@@ -138,7 +142,30 @@ window.addEventListener('load', function () {
 		//  });
 		const currentIcon = icon.replace(/-/g, '_').toUpperCase();
 		skycons.play();
-		return skycons.set(iconID, Skycons[currentIcon]);
+		skycons.set(iconID, Skycons[currentIcon]);
+	}
+
+	function setHourIcons(iconID) {
+
+		for (let i = 0; i < iconID.length; i++) {
+			const weatherIcon = iconID[i];
+			const icon = weatherIcon.getAttribute('data-icon');
+
+			const skycons = new Skycons({
+				color: "white",
+				monochrome: false,
+			});
+			// console.log(skycons);
+			// 	var skycons = new Skycons({
+			// 		"monochrome": false,
+			// 		"colors" : {
+			// 		"cloud" : "#F00"
+			// 	}
+			//  });
+			const currentHourIcon = icon.replace(/-/g, '_').toUpperCase();
+			//skycons.play();
+			skycons.set(weatherIcon, Skycons[currentHourIcon]);
+		}
 	}
 
 	//Date convert
