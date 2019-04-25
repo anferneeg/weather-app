@@ -38,7 +38,6 @@ window.addEventListener('load', function () {
 
 			//GRAB DATA FROM DARKSKY API
 
-
 			$.ajax({
 				url: api,
 				method: 'GET',
@@ -171,6 +170,23 @@ window.addEventListener('load', function () {
 	//Date convert
 	currentDate = new Date();
 	$('.currently-time').append(currentDate.toDateString());
+
+
+	//Tab Nav
+
+	$(document).ready(function () {
+
+		$('ul.tabs li').click(function () {
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		})
+
+	})
 
 
 })
