@@ -22,6 +22,13 @@ window.addEventListener('load', function () {
 	let currentHourIcon = document.querySelector('.hourly-icon');
 	let currentHourDegree = document.querySelector('.hourly-degree');
 
+	//GRABING UI ELEMENTS FOR TOMORROW
+	let tomorrowTemp = document.querySelector('.tomorrow-temperature');
+	let tomorrowSum = document.querySelector('.tomorrow-summary');
+	let tomorrowTempHigh2 = document.querySelector('.tomorrow-temperaturehl.high');
+	let tomorrowTempLow = document.querySelector('.tomorrow-temperaturehl.low');
+
+	console.log(tomorrowTempHigh2, tomorrowTempLow);
 
 
 	if (navigator.geolocation) {
@@ -53,6 +60,15 @@ window.addEventListener('load', function () {
 				const { timezone } = data;
 				const { temperatureMax } = data.daily.data[0];
 				const { temperatureMin } = data.daily.data[0];
+
+				//DECONSTRUCT DATA FROM CURRENTLY DAILY OBJECT (TOMORROW)
+				const { icon: iconTomorrow } = data.daily.data[1];
+				const { temperatureHigh: tomorrowTempHigh } = data.daily.data[1];
+				const { summary: tomorrowSummary } = data.daily.data[1];
+				const { temperatureMax: tomorrowTemperatureMax } = data.daily.data[1];
+				const { temperatureMin: tomorrowTemperatureMin } = data.daily.data[1];
+				console.log(tomorrowTemperatureMax.toFixed(0), tomorrowTemperatureMin.toFixed(0));
+
 
 				//DECONSTRUCT DATA FROM HOURLY OBJECT
 				let currentHourly = data.hourly.data;
@@ -103,16 +119,23 @@ window.addEventListener('load', function () {
 
 				//SET DOM ELEMENTS FORM THE API w-currently-container
 				currentLocation.textContent = location;
-				currentDate.textContent = time;
+				// currentDate.textContent = time;
 				currentTemp.textContent = temperature.toFixed(0);
 				currentIcon.appendChild = icon;
 				currentSummary.textContent = summary;
 				currentTempHigh.textContent = temperatureMax.toFixed(0);
 				currentTempLow.textContent = temperatureMin.toFixed(0);
 
+				//SET DOM ELEMENTS FORM THE API Tomorrow 
+				tomorrowTemp.textContent = tomorrowTempHigh.toFixed(0);
+				tomorrowSum.textContent = tomorrowSummary;
+				tomorrowTempHigh2.textContent = tomorrowTemperatureMax.toFixed(0);
+				tomorrowTempLow.textContent = tomorrowTemperatureMin.toFixed(0);
+
 
 				//SET CURRENT MAIN ICONS
 				setIcons(icon, document.querySelector('.w-icon'));
+				setTomorrowIcons(iconTomorrow, document.querySelector('.t-w-icon'));
 
 				//SET HOURLY ICONS
 				//setHourIcons(icon, document.querySelector('.hourly-icon'));
@@ -129,7 +152,7 @@ window.addEventListener('load', function () {
 	//Skycon
 	function setIcons(icon, iconID) {
 		const skycons = new Skycons({
-			color: "white",
+			color: "#fff",
 			monochrome: false,
 		});
 		// console.log(skycons);
@@ -167,13 +190,36 @@ window.addEventListener('load', function () {
 		}
 	}
 
+	function setTomorrowIcons(iconTomorrow, iconID) {
+		const skycons = new Skycons({
+			color: "white",
+			monochrome: false,
+		});
+		// console.log(skycons);
+		// 	var skycons = new Skycons({
+		// 		"monochrome": false,
+		// 		"colors" : {
+		// 		"cloud" : "#F00"
+		// 	}
+		//  });
+		const tomorrowIcon = iconTomorrow.replace(/-/g, '_').toUpperCase();
+		skycons.play();
+		skycons.set(iconID, Skycons[tomorrowIcon]);
+	}
+
 	//Date convert
 	currentDate = new Date();
 	$('.currently-time').append(currentDate.toDateString());
 
+	var d = new Date();
+	var tomorrowDate = d.getDate() + 1;
+	d.setDate(tomorrowDate);
+	//tomorrowtDate = new Date();
+	console.log(d);
+	$('.tomorrow-time').append(d.toDateString());
+
 
 	//Tab Nav
-
 	$(document).ready(function () {
 
 		$('ul.tabs li').click(function () {

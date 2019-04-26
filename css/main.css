@@ -13,6 +13,8 @@
     height: 100vh;
   }
 
+  /* Tab Ui */
+
   .tab-container{
     position: relative;
     display: -webkit-box;
@@ -62,59 +64,7 @@
     display: inherit;
   }
 
-  .loading-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: black;
-    z-index: 999;
-    /* display: none; */
-  }
-
-  .lds-ring {
-    display: inline-block;
-    position: relative;
-    width: 64px;
-    height: 64px;
-  }
-  .lds-ring div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 51px;
-    height: 51px;
-    margin: 6px;
-    border: 3px solid #fff;
-    border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #fff transparent transparent transparent;
-  }
-  .lds-ring div:nth-child(1) {
-    animation-delay: -0.45s;
-    border: 3px solid #0084d5;;
-    
-  }
-  .lds-ring div:nth-child(2) {
-    animation-delay: -0.3s;
-    border: 3px solid #0084d5;;
-  }
-  .lds-ring div:nth-child(3) {
-    animation-delay: -0.15s;
-    border: 3px solid #0084d5;;
-  }
-  @keyframes lds-ring {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+  /* Tab UI End */
   
   .main-container {
     position: relative;
@@ -145,12 +95,14 @@
     font-size: 20px;
   }
   
-  .currently-time {
-    font-size: 16px;
+  .currently-time, .tomorrow-time {
+    font-size: 18px;
     font-weight: 300;
   }
   
-  .currently-temperature {
+
+  
+  .currently-temperature, .tomorrow-temperature {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -169,7 +121,7 @@
     font-weight: 300;
   }
   
-  .w-currently-wrapper {
+  .w-currently-wrapper, .tomorrow-wrapper {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -181,7 +133,7 @@
     flex-direction: column;
   }
   
-  .currently-icon {
+  .currently-icon, .tomorrow-icon {
     position: absolute;
     left: auto;
     top: auto;
@@ -195,7 +147,7 @@
     height: 45px;
   }
   
-  .w-currently-wrapper-top {
+  .w-currently-wrapper-top, .tomorrow-wrapper-top {
     position: relative;
     display: -webkit-box;
     display: -webkit-flex;
@@ -212,7 +164,7 @@
     justify-content: center;
   }
   
-  .w-currently-wrapper-left {
+  .w-currently-wrapper-left, .tomorrow-wrapper-left {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -224,7 +176,7 @@
     align-items: flex-start;
   }
   
-  .currently-summary {
+  .currently-summary, .tomorrow-summary {
     margin-top: 25px;
     margin-bottom: 15px;
     font-size: 18px;
@@ -263,13 +215,13 @@
     margin-left: 10px;
   }
   
-  .temperaturehl {
+  .temperaturehl, .tomorrow-temperaturehl {
     padding-right: 10px;
     padding-left: 10px;
     font-size: 26px;
   }
   
-  .temperaturehl.low, .temperaturehl-wrapper span.low {
+  .temperaturehl.low, .tomorrow-temperaturehl.low, .temperaturehl-wrapper span.low {
     color: rgba(255, 255, 255, 0.5);
   }
   
@@ -349,10 +301,173 @@
     font-size: inherit;
   }
 
+/* Preloader */
 
+.loading-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 999;
+  /* display: none; */
+}
 
-
-
-
-
+  .preloader {
+    position: absolute;
+    margin-left: -55px;
+    margin-top: -100px;
+    height: 110px;
+    width: 110px;
+    left: 50%;
+    top: 50%;
+  }
+  
+  svg {
+    width: 110px;
+    height: 110px;
+  }
+  
+  path {
+    stroke: #a0a0a0;
+    stroke-width: 0.25;
+    fill:#000;
+  }
+  
+  #cloud {
+    position: relative;
+    z-index: 2;
+  }
+  
+  #cloud path {
+    fill: $gallery;
+  }
+  
+  #sun {
+    margin-left: -10px;
+    margin-top: 6px;
+    opacity: 0;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 45px;
+    top: 15px;
+    z-index: 1;
+    animation-name: rotate;
+    animation-duration: 16000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  
+  #sun path {
+    stroke-width: 0.18;
+    fill: #a0a0a0;
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotateZ(0deg);
+    }
+  
+    100% {
+      transform: rotateZ(360deg);
+    }
+  
+  }
+  
+  .rain {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    margin-top: -32px;
+    margin-left: 19px;
+  }
+  
+  .drop {
+    opacity: 1;
+    background: #a0a0a0;
+    display: block;
+    float: left;
+    width: 3px;
+    height: 10px;
+    margin-left: 4px;
+    border-radius: 0 0 6px 6px;
+    animation-name: drop;
+    animation-duration: 350ms;
+    animation-iteration-count: infinite;
+  }
+  
+  .drop:nth-child(1) {
+    animation-delay: -130ms;
+  }
+  
+  .drop:nth-child(2) {
+    animation-delay: -240ms;
+  }
+  
+  .drop:nth-child(3) {
+    animation-delay: -390ms;
+  }
+  
+  .drop:nth-child(4) {
+    animation-delay: -525ms;
+  }
+  
+  .drop:nth-child(5) {
+    animation-delay: -640ms;
+  }
+  
+  .drop:nth-child(6) {
+    animation-delay: -790ms;
+  }
+  
+  .drop:nth-child(7) {
+    animation-delay: -900ms;
+  }
+  
+  .drop:nth-child(8) {
+    animation-delay: -1050ms;
+  }
+  
+  .drop:nth-child(9) {
+    animation-delay: -1130ms;
+  }
+  
+  .drop:nth-child(10) {
+    animation-delay: -1300ms;
+  }
+  
+  @keyframes drop {
+    50% {
+      height: 45px;
+      opacity: 0;
+    }
+  
+    51% {
+      opacity: 0;
+    }
+  
+    100% {
+      height: 1px;
+      opacity: 0;
+    }
+  
+  }
+  
+  .text {
+    /* font-family: Helvetica, Helvetica Neue, sans-serif; */
+    letter-spacing: 1px;
+    text-align: center;
+    margin-left: -43px;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    width: 200px;
+  }
+  
   
