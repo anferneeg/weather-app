@@ -2,6 +2,7 @@
 // https://api.darksky.net/forecast/cc776ae16966c9515b6e9ef5c31fd6e5/37.8267,-122.4233
 
 
+
 window.addEventListener('load', function () {
 
 	let latitude;
