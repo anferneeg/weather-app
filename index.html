@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Cool Weather Js</title>
+  <title>Weather Js</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -68,7 +68,7 @@
         </div>
         <!-- Header -->
         <div class="header">
-          <div class="timezone">Toronto</div>
+          <div class="timezone"></div>
           <div class="currently-time"></div>
         </div>
         <!-- Current Weather blook -->
@@ -79,9 +79,9 @@
                 <div class="currently-temperature">26</div>
                 <div class="degree">
                   <span>°</span> C</div>
-              </div>
-              <div class="currently-icon">
-                <canvas class="w-icon" width="45" height="45"></canvas>
+                <div class="currently-icon">
+                  <canvas class="w-icon" width="45" height="45"></canvas>
+                </div>
               </div>
             </div>
             <div class="w-currently-wrapper-bottom">
@@ -110,8 +110,18 @@
       <!-- Header -->
       <div class="main-container mc-2">
         <div class="header">
-          <div class="timezone">Toronto</div>
-          <div class="tomorrow-time"></div>
+          <!-- <div class="timezone">Toronto</div>
+          <div class="tomorrow-time"></div> -->
+          <div class="tomorrow-icon">
+            <canvas class="t-w-icon"></canvas>
+            <div>
+              <!-- <div class="temperaturehl-wrapper">
+                <div class="tomorrow-temperaturehl high">21 </div>
+                <span>°</span>
+              </div> -->
+
+            </div>
+          </div>
         </div>
         <!-- Tomorrow Weather blook -->
         <div class="tomorrow-container">
@@ -123,40 +133,51 @@
                   <span>°</span> C</div>
               </div>
               <div class="tomorrow-icon">
-                <canvas class="t-w-icon" width="45" height="45"></canvas>
+                <!-- <canvas class="t-w-icon"></canvas> -->
+                <!-- <div>
+                  <div class="temperaturehl-wrapper">
+                    <div class="tomorrow-temperaturehl high">21 </div>
+                    <span>°</span>
+                  </div>
+                </div> -->
               </div>
+              <div class="temperaturehl-wrapper">
+                <div class="tomorrow-temperaturehl low">18 </div>
+                <span class="low">°</span>
+              </div>
+
             </div>
             <div class="tomorrow-wrapper-bottom">
               <div class="tomorrow-summary">Overcast</div>
               <div class="temperaturehl-container">
-                <div class="temperaturehl-wrapper">
-                  <div class="tomorrow-temperaturehl low">18 </div>
-                  <span class="low">°</span>
-                </div>
-                <div class="temperaturehl-wrapper">
-                  <div class="tomorrow-temperaturehl high">21 </div>
-                  <span>°</span>
-                </div>
               </div>
             </div>
+
           </div>
         </div>
         <!-- Hourly block Tommorrow -->
         <div class="footer">
-          <div class="hourly-container"></div>
+          <!-- <div class="hourly-container"></div> -->
         </div>
       </div>
     </div>
     <div id="tab-3" class="tab-content">
-      <div class="main-container mc-3">
-        Tab 3
+      <div class="main-container forcast mc-3">
+        <div class="header">
+          <div class="timezone">Toronto</div>
+        </div>
+
+        <div class="forcast-container">
+
+        </div>
+
       </div>
     </div>
     <div class="navbar">
       <ul class="tabs">
         <li class="tab-link current" data-tab="tab-1">Today</li>
         <li class="tab-link" data-tab="tab-2">Tomorrow</li>
-        <li class="tab-link" data-tab="tab-3">10 Days</li>
+        <li class="tab-link" data-tab="tab-3">Forcast</li>
       </ul>
     </div>
   </div>
@@ -166,6 +187,7 @@
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
   <script src="js/skycons.js"></script>
   <script src="js/weather.js"></script>
+  <script src="js/moment.js"></script>
 
 
 
