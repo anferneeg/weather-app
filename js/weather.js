@@ -122,21 +122,28 @@ window.addEventListener('load', function () {
 				console.log(forcastData);
 				// forcastData.splice(-12, 12);
 
-				let { time: forcastDate, temperatureHigh: forcastTempHigh, temperatureLow: forcastTempLow, icon: iconForcast, summary: forcastSummary } = data.daily.data;
+				// let { time: forcastDate, temperatureHigh: forcastTempHigh, temperatureLow: forcastTempLow, icon: iconForcast, summary: forcastSummary } = data.daily.data;
 
 				// FORMAT UNIX TIME (with moment.js)
-				forcastDate = moment.unix(forcastDate).format('llll')
-				// console.log(moment(time).format('MMMM Do YYYY, h:mm:ss a'));
-				console.log(forcastDate);
+				// forcastDate = moment.unix(time).format('llll')
+				// // console.log(moment(time).format('MMMM Do YYYY, h:mm:ss a'));
+
+				// console.log(forcastDate);
 
 				forcastData = function () {
 					let forcastObj = forcastData.map(function (item) {
-						//console.log(item);
+
+
+						//item.time = moment.unix(time).format('llll');
+						let formatTime = item.time
+						formatDate = moment.unix(formatTime).format('dddd')
+						//console.log(moment.unix(formatTime).format('llll'));
+						console.log(formatDate);
 
 						let forcastHtml = `
 						<div class="forcast-wrapper">
 						<div class="forcast-date-summary">
-						  <div class="forcast-date">${item.forcastDate}</div>
+						  <div class="forcast-date">${formatDate}</div>
 						  <div class="forcast-summary">${item.icon}</div>
 						</div>
 						<div><canvas class="forcast-icon-wrapper" width="45" height="45" data-icon-forcast="${item.icon}"></canvas></div>
@@ -210,17 +217,19 @@ window.addEventListener('load', function () {
 
 	//Skycon icon for Today screen
 	function setIcons(icon, iconID) {
-		const skycons = new Skycons({
-			color: "#fff",
-			monochrome: false,
+
+		var skycons = new Skycons({
+			"monochrome": false,
+			"colors": {
+				"cloud": "#fff",
+				"leaf": "#91dd64",
+				"rain": "#00aeff",
+				"snow": "#88ddff",
+				"sun": "#F05A62",
+				"moon": "#cccccc"
+
+			}
 		});
-		// console.log(skycons);
-		// 	var skycons = new Skycons({
-		// 		"monochrome": false,
-		// 		"colors" : {
-		// 		"cloud" : "#F00"
-		// 	}
-		//  });
 		const currentIcon = icon.replace(/-/g, '_').toUpperCase();
 		skycons.play();
 		skycons.set(iconID, Skycons[currentIcon]);
@@ -233,36 +242,55 @@ window.addEventListener('load', function () {
 			const weatherIcon = iconID[i];
 			const icon = weatherIcon.getAttribute('data-icon');
 
-			const skycons = new Skycons({
-				color: "white",
-				monochrome: false,
+
+			console.log(skycons);
+			var skycons = new Skycons({
+				"monochrome": false,
+				"colors": {
+					"cloud": "#fff",
+					"leaf": "#91dd64",
+					"rain": "#00aeff",
+					"snow": "#88ddff",
+					"sun": "#F05A62",
+					"moon": "#cccccc"
+
+				}
 			});
-			// console.log(skycons);
-			// 	var skycons = new Skycons({
-			// 		"monochrome": false,
-			// 		"colors" : {
-			// 		"cloud" : "#F00"
-			// 	}
-			//  });
 			const currentHourIcon = icon.replace(/-/g, '_').toUpperCase();
 			skycons.play();
 			skycons.set(weatherIcon, Skycons[currentHourIcon]);
 		}
 	}
 
+	// If you want to add more colors :
+	// var skycons = new Skycons({"monochrome": false});
+	// you can now customize the color of different parts
+	// main, moon, fog, fogbank, cloud, snow, leaf, rain, sun
+	// var skycons = new Skycons({
+	//  "monochrome": false,
+	//  "colors" : {
+	//    "cloud" : "#F00"
+	//  }
+	//  });
+
 	//Skycon icon for Tomorrow screen 
 	function setTomorrowIcons(iconTomorrow, iconID) {
-		const skycons = new Skycons({
-			color: "white",
-			monochrome: false,
+		// const skycons = new Skycons({
+		// 	color: "white",
+		// 	monochrome: false,
+		// });
+		let skycons = new Skycons({
+			"monochrome": false,
+			"colors": {
+				"cloud": "#fff",
+				"leaf": "#91dd64",
+				"rain": "#00aeff",
+				"snow": "#88ddff",
+				"sun": "#F05A62",
+				"moon": "#cccccc"
+
+			}
 		});
-		// console.log(skycons);
-		// 	var skycons = new Skycons({
-		// 		"monochrome": false,
-		// 		"colors" : {
-		// 		"cloud" : "#F00"
-		// 	}
-		//  });
 		const tomorrowIcon = iconTomorrow.replace(/-/g, '_').toUpperCase();
 		skycons.play();
 		skycons.set(iconID, Skycons[tomorrowIcon]);
@@ -275,17 +303,22 @@ window.addEventListener('load', function () {
 			const forcastIcon = iconID[i];
 			const icon = forcastIcon.getAttribute('data-icon-forcast');
 
-			const skycons = new Skycons({
-				color: "white",
-				monochrome: false,
+			// const skycons = new Skycons({
+			// 	color: "white",
+			// 	monochrome: false,
+			// });
+			let skycons = new Skycons({
+				"monochrome": false,
+				"colors": {
+					"cloud": "#fff",
+					"leaf": "#91dd64",
+					"rain": "#00aeff",
+					"snow": "#88ddff",
+					"sun": "#F05A62",
+					"moon": "#cccccc"
+
+				}
 			});
-			// console.log(skycons);
-			// 	var skycons = new Skycons({
-			// 		"monochrome": false,
-			// 		"colors" : {
-			// 		"cloud" : "#F00"
-			// 	}
-			//  });
 			const forcastWeatherIcon = icon.replace(/-/g, '_').toUpperCase();
 			skycons.play();
 			skycons.set(forcastIcon, Skycons[forcastWeatherIcon]);

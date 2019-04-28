@@ -171,14 +171,14 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
   }
 
   .t-w-icon{
     position: absolute;
     left: -20px;
-    height: 70px;
+    height: 85px;
   }
 
   .tomorrow-container{
@@ -261,7 +261,7 @@
   .currently-summary{
     margin-top: 25px;
     margin-bottom: 15px;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     text-align: center;
     text-transform: capitalize
@@ -373,9 +373,11 @@
   }
 
   .hourly-time {
-    color: #0084d5;
+    /* color: #0084d5; */
+    color:#fff;
     font-size: 16px;
     text-align: center;
+    font-weight: 100;
   }
 
   .hourly-icon {
@@ -431,8 +433,8 @@
   }
   
   path {
-    stroke: #a0a0a0;
-    stroke-width: 0.25;
+    stroke: #fff;
+    stroke-width: 0.5;
     fill:#000;
   }
   
@@ -441,9 +443,9 @@
     z-index: 2;
   }
   
-  #cloud path {
+  /* #cloud path {
     fill: $gallery;
-  }
+  } */
   
   #sun {
     margin-left: -10px;
@@ -463,7 +465,7 @@
   
   #sun path {
     stroke-width: 0.18;
-    fill: #a0a0a0;
+    fill: #fff;
   }
   
   @keyframes rotate {
