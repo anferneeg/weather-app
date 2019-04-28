@@ -1,7 +1,3 @@
-//DARKSKY API KEY cc776ae16966c9515b6e9ef5c31fd6e5
-// https://api.darksky.net/forecast/cc776ae16966c9515b6e9ef5c31fd6e5/37.8267,-122.4233
-
-
 document.addEventListener('DOMContentLoaded', init);
 
 let latitude;
@@ -39,9 +35,8 @@ let tomorrowTempLow = document.querySelector('.tomorrow-temperaturehl.low');
 
 function init() {
 
-	console.log(tomorrowTempHigh2, tomorrowTempLow);
-
 	if (navigator.geolocation) {
+
 		navigator.geolocation.getCurrentPosition(function (showPosition, posFail, options) {
 			navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
 
@@ -259,7 +254,7 @@ function setIcons(icon, iconID) {
 			"leaf": "#91dd64",
 			"rain": "#00aeff",
 			"snow": "#88ddff",
-			"sun": "#F05A62",
+			"sun": "#fade4b",
 			"moon": "#cccccc"
 
 		}
@@ -285,7 +280,7 @@ function setHourIcons(iconID) {
 				"leaf": "#91dd64",
 				"rain": "#00aeff",
 				"snow": "#88ddff",
-				"sun": "#F05A62",
+				"sun": "#fade4b",
 				"moon": "#cccccc"
 
 			}
@@ -309,7 +304,7 @@ function setTomorrowIcons(iconTomorrow, iconID) {
 			"leaf": "#91dd64",
 			"rain": "#00aeff",
 			"snow": "#88ddff",
-			"sun": "#F05A62",
+			"sun": "#fade4b",
 			"moon": "#cccccc"
 
 		}
@@ -337,7 +332,7 @@ function setForcastIcons(iconID) {
 				"leaf": "#91dd64",
 				"rain": "#00aeff",
 				"snow": "#88ddff",
-				"sun": "#F05A62",
+				"sun": "#fade4b",
 				"moon": "#cccccc"
 
 			}
@@ -350,25 +345,24 @@ function setForcastIcons(iconID) {
 
 
 //Tomorrows Date
-var d = new Date();
-var tomorrowDate = d.getDate() + 1;
-d.setDate(tomorrowDate);
-$('.tomorrow-time').append(d.toDateString());
+// let d = new Date();
+// let tomorrowDate = d.getDate() + 1;
+// d.setDate(tomorrowDate);
+// $('.tomorrow-time').append(d.toDateString());
 
 
 //Tab Nav
-$(document).ready(function () {
 
-	$('ul.tabs li').click(function () {
-		var tab_id = $(this).attr('data-tab');
+$('ul.tabs li').click(function () {
+	let tab_id = $(this).attr('data-tab');
 
-		$('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
+	$('ul.tabs li').removeClass('current');
+	$('.tab-content').removeClass('current');
 
-		$(this).addClass('current');
-		$("#" + tab_id).addClass('current');
-	})
-
+	$(this).addClass('current');
+	$("#" + tab_id).addClass('current');
 })
+
+
 
 
