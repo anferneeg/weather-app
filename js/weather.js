@@ -2,46 +2,57 @@
 // https://api.darksky.net/forecast/cc776ae16966c9515b6e9ef5c31fd6e5/37.8267,-122.4233
 
 
+document.addEventListener('DOMContentLoaded', init);
 
-window.addEventListener('load', function () {
+let latitude;
+let longitude;
+let geoAccuracy;
+let G, options, spans;
+const apiKey = 'cc776ae16966c9515b6e9ef5c31fd6e5';
 
-	let latitude;
-	let longitude;
-	let geoAccuracy;
-	const apiKey = 'cc776ae16966c9515b6e9ef5c31fd6e5';
+//GRABING UI ELEMENTS
+let currentLocation = document.querySelector('.timezone');
+let currentDate = document.querySelector('.currently-time');
+let currentTemp = document.querySelector('.currently-temperature');
+let currentIcon = document.querySelector('.currently-icon');
+let currentSummary = document.querySelector('.currently-summary');
+let currentTempHigh = document.querySelector('.temperaturehl.high');
+let currentTempLow = document.querySelector('.temperaturehl.low');
 
-	//GRABING UI ELEMENTS
-	let currentLocation = document.querySelector('.timezone');
-	let currentDate = document.querySelector('.currently-time');
-	let currentTemp = document.querySelector('.currently-temperature');
-	let currentIcon = document.querySelector('.currently-icon');
-	let currentSummary = document.querySelector('.currently-summary');
-	let currentTempHigh = document.querySelector('.temperaturehl.high');
-	let currentTempLow = document.querySelector('.temperaturehl.low');
+let currentHourTime = document.querySelector('.hourly-time');
+let currentHourIcon = document.querySelector('.hourly-icon');
+let currentHourDegree = document.querySelector('.hourly-degree');
 
-	let currentHourTime = document.querySelector('.hourly-time');
-	let currentHourIcon = document.querySelector('.hourly-icon');
-	let currentHourDegree = document.querySelector('.hourly-degree');
+//GRABING UI ELEMENTS FOR TOMORROW
+let tomorrowTemp = document.querySelector('.tomorrow-temperature');
+let tomorrowSum = document.querySelector('.tomorrow-summary');
+let tomorrowTempHigh2 = document.querySelector('.tomorrow-temperaturehl.high');
+let tomorrowTempLow = document.querySelector('.tomorrow-temperaturehl.low');
 
-	//GRABING UI ELEMENTS FOR TOMORROW
-	let tomorrowTemp = document.querySelector('.tomorrow-temperature');
-	let tomorrowSum = document.querySelector('.tomorrow-summary');
-	let tomorrowTempHigh2 = document.querySelector('.tomorrow-temperaturehl.high');
-	let tomorrowTempLow = document.querySelector('.tomorrow-temperaturehl.low');
+//GRABING UI ELEMENTS FOR 10 DAY
+// let forcastDate = document.querySelector('.forcast-date');
+// let forcastSummary = document.querySelector('.forcast-summary');
+// let forcastHighDegree = document.querySelector('.forcast-high-degree');
+// let forcastLowDegree = document.querySelector('.forcast-low-degree');
+// let forcastIcon = document.querySelector('.forcast-icon-wrapper');
 
-	//GRABING UI ELEMENTS FOR 10 DAY
-	// let forcastDate = document.querySelector('.forcast-date');
-	// let forcastSummary = document.querySelector('.forcast-summary');
-	// let forcastHighDegree = document.querySelector('.forcast-high-degree');
-	// let forcastLowDegree = document.querySelector('.forcast-low-degree');
-	// let forcastIcon = document.querySelector('.forcast-icon-wrapper');
 
+function init() {
 
 	console.log(tomorrowTempHigh2, tomorrowTempLow);
 
-
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function (showPosition) {
+		navigator.geolocation.getCurrentPosition(function (showPosition, posFail, options) {
+			navigator.geolocation.getCurrentPosition(gotPos, posFail, options);
+
+			let giveUp = 1000 * 30; // 30 seconds
+			let tooOld = 1000 * 60 * 60; // one hour
+			options = {
+				enableHighAccuracy: true,
+				tiemout: giveUp,
+				maximumAge: tooOld
+			}
+
 			latitude = showPosition.coords.latitude
 			longitude = showPosition.coords.longitude
 			geoAccuracy = showPosition.coords.accuracy.toFixed(1);
@@ -99,11 +110,11 @@ window.addEventListener('load', function () {
 						//console.log(hourFormat);
 
 						let currentHourHtml = `
-						<div class="hourly-wrapper">
-							<div class="hourly-time">${hourFormat}</div>
-							<div><canvas class="hourly-icon" width="45" height="45" data-icon="${item.icon}"></canvas></div>
-							<div class="hourly-degree">${item.temperature.toFixed(0)}<span>°</span></div>
-					    </div>`;
+					<div class="hourly-wrapper">
+						<div class="hourly-time">${hourFormat}</div>
+						<div><canvas class="hourly-icon" width="45" height="45" data-icon="${item.icon}"></canvas></div>
+						<div class="hourly-degree">${item.temperature.toFixed(0)}<span>°</span></div>
+					</div>`;
 						return currentHourHtml;
 
 					});
@@ -141,25 +152,25 @@ window.addEventListener('load', function () {
 						console.log(formatDate);
 
 						let forcastHtml = `
-						<div class="forcast-wrapper">
-						<div class="forcast-date-summary">
-						  <div class="forcast-date">${formatDate}</div>
-						  <div class="forcast-summary">${item.icon}</div>
+					<div class="forcast-wrapper">
+					<div class="forcast-date-summary">
+					  <div class="forcast-date">${formatDate}</div>
+					  <div class="forcast-summary">${item.icon}</div>
+					</div>
+					<div><canvas class="forcast-icon-wrapper" width="45" height="45" data-icon-forcast="${item.icon}"></canvas></div>
+					<div class="forcast-temp-wrapper">
+					  <div class="forcast-high">
+						<div class="forcast-high-degree">${item.temperatureHigh.toFixed(0)}
+						  <span>°</span>
 						</div>
-						<div><canvas class="forcast-icon-wrapper" width="45" height="45" data-icon-forcast="${item.icon}"></canvas></div>
-						<div class="forcast-temp-wrapper">
-						  <div class="forcast-high">
-							<div class="forcast-high-degree">${item.temperatureHigh.toFixed(0)}
-							  <span>°</span>
-							</div>
-						  </div>
-						  <div class="forcast-low">
-							<div class="forcast-low-degree">${item.temperatureLow.toFixed(0)}
-							  <span>°</span>
-							</div>
-						  </div>
+					  </div>
+					  <div class="forcast-low">
+						<div class="forcast-low-degree">${item.temperatureLow.toFixed(0)}
+						  <span>°</span>
 						</div>
-					  </div>`;
+					  </div>
+					</div>
+				  </div>`;
 						return forcastHtml;
 
 					});
@@ -213,11 +224,60 @@ window.addEventListener('load', function () {
 				console.log("Something went wrong");
 			});
 		});
+	} else {
+		//using an older broswer that doesn't support geolocation
+
 	}
 
-	//Skycon icon for Today screen
-	function setIcons(icon, iconID) {
+}
 
+
+function gotPos(position) {
+	let latitude = position.coords.latitude;
+	let longitude = position.coords.longitude;
+	let positionAccuracy = position.coords.accuracy;
+}
+
+function posFail(err) {
+	//err is a number
+	let errors = {
+		1: 'No permission',
+		2: 'Unable to determine',
+		3: 'Took to long'
+	}
+
+	console.log(error[err]);
+}
+
+//Skycon icon for Today screen
+function setIcons(icon, iconID) {
+
+	var skycons = new Skycons({
+		"monochrome": false,
+		"colors": {
+			"cloud": "#fff",
+			"leaf": "#91dd64",
+			"rain": "#00aeff",
+			"snow": "#88ddff",
+			"sun": "#F05A62",
+			"moon": "#cccccc"
+
+		}
+	});
+	const currentIcon = icon.replace(/-/g, '_').toUpperCase();
+	skycons.play();
+	skycons.set(iconID, Skycons[currentIcon]);
+}
+
+//Skycon icon for Today Hourly 
+function setHourIcons(iconID) {
+
+	for (let i = 0; i < iconID.length; i++) {
+		const weatherIcon = iconID[i];
+		const icon = weatherIcon.getAttribute('data-icon');
+
+
+		console.log(skycons);
 		var skycons = new Skycons({
 			"monochrome": false,
 			"colors": {
@@ -230,51 +290,42 @@ window.addEventListener('load', function () {
 
 			}
 		});
-		const currentIcon = icon.replace(/-/g, '_').toUpperCase();
+		const currentHourIcon = icon.replace(/-/g, '_').toUpperCase();
 		skycons.play();
-		skycons.set(iconID, Skycons[currentIcon]);
+		skycons.set(weatherIcon, Skycons[currentHourIcon]);
 	}
+}
 
-	//Skycon icon for Today Hourly 
-	function setHourIcons(iconID) {
+//Skycon icon for Tomorrow screen 
+function setTomorrowIcons(iconTomorrow, iconID) {
+	// const skycons = new Skycons({
+	// 	color: "white",
+	// 	monochrome: false,
+	// });
+	let skycons = new Skycons({
+		"monochrome": false,
+		"colors": {
+			"cloud": "#fff",
+			"leaf": "#91dd64",
+			"rain": "#00aeff",
+			"snow": "#88ddff",
+			"sun": "#F05A62",
+			"moon": "#cccccc"
 
-		for (let i = 0; i < iconID.length; i++) {
-			const weatherIcon = iconID[i];
-			const icon = weatherIcon.getAttribute('data-icon');
-
-
-			console.log(skycons);
-			var skycons = new Skycons({
-				"monochrome": false,
-				"colors": {
-					"cloud": "#fff",
-					"leaf": "#91dd64",
-					"rain": "#00aeff",
-					"snow": "#88ddff",
-					"sun": "#F05A62",
-					"moon": "#cccccc"
-
-				}
-			});
-			const currentHourIcon = icon.replace(/-/g, '_').toUpperCase();
-			skycons.play();
-			skycons.set(weatherIcon, Skycons[currentHourIcon]);
 		}
-	}
+	});
+	const tomorrowIcon = iconTomorrow.replace(/-/g, '_').toUpperCase();
+	skycons.play();
+	skycons.set(iconID, Skycons[tomorrowIcon]);
+}
 
-	// If you want to add more colors :
-	// var skycons = new Skycons({"monochrome": false});
-	// you can now customize the color of different parts
-	// main, moon, fog, fogbank, cloud, snow, leaf, rain, sun
-	// var skycons = new Skycons({
-	//  "monochrome": false,
-	//  "colors" : {
-	//    "cloud" : "#F00"
-	//  }
-	//  });
+//Skycon icon for Forcast 
+function setForcastIcons(iconID) {
 
-	//Skycon icon for Tomorrow screen 
-	function setTomorrowIcons(iconTomorrow, iconID) {
+	for (let i = 0; i < iconID.length; i++) {
+		const forcastIcon = iconID[i];
+		const icon = forcastIcon.getAttribute('data-icon-forcast');
+
 		// const skycons = new Skycons({
 		// 	color: "white",
 		// 	monochrome: false,
@@ -291,71 +342,33 @@ window.addEventListener('load', function () {
 
 			}
 		});
-		const tomorrowIcon = iconTomorrow.replace(/-/g, '_').toUpperCase();
+		const forcastWeatherIcon = icon.replace(/-/g, '_').toUpperCase();
 		skycons.play();
-		skycons.set(iconID, Skycons[tomorrowIcon]);
+		skycons.set(forcastIcon, Skycons[forcastWeatherIcon]);
 	}
-
-	//Skycon icon for Forcast 
-	function setForcastIcons(iconID) {
-
-		for (let i = 0; i < iconID.length; i++) {
-			const forcastIcon = iconID[i];
-			const icon = forcastIcon.getAttribute('data-icon-forcast');
-
-			// const skycons = new Skycons({
-			// 	color: "white",
-			// 	monochrome: false,
-			// });
-			let skycons = new Skycons({
-				"monochrome": false,
-				"colors": {
-					"cloud": "#fff",
-					"leaf": "#91dd64",
-					"rain": "#00aeff",
-					"snow": "#88ddff",
-					"sun": "#F05A62",
-					"moon": "#cccccc"
-
-				}
-			});
-			const forcastWeatherIcon = icon.replace(/-/g, '_').toUpperCase();
-			skycons.play();
-			skycons.set(forcastIcon, Skycons[forcastWeatherIcon]);
-		}
-	}
+}
 
 
-
-	//Today Date current
-	// currentDate = new Date();
-	// $('.currently-time').append(currentDate.toDateString());
-
-	// let currentDateFormat = moment(time).format('llll');
-	// $('.currently-time').append(currentDateFormat);
-
-	//Tomorrows Date
-	var d = new Date();
-	var tomorrowDate = d.getDate() + 1;
-	d.setDate(tomorrowDate);
-	$('.tomorrow-time').append(d.toDateString());
+//Tomorrows Date
+var d = new Date();
+var tomorrowDate = d.getDate() + 1;
+d.setDate(tomorrowDate);
+$('.tomorrow-time').append(d.toDateString());
 
 
-	//Tab Nav
-	$(document).ready(function () {
+//Tab Nav
+$(document).ready(function () {
 
-		$('ul.tabs li').click(function () {
-			var tab_id = $(this).attr('data-tab');
+	$('ul.tabs li').click(function () {
+		var tab_id = $(this).attr('data-tab');
 
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
 
-			$(this).addClass('current');
-			$("#" + tab_id).addClass('current');
-		})
-
+		$(this).addClass('current');
+		$("#" + tab_id).addClass('current');
 	})
-})
 
+})
 
 
